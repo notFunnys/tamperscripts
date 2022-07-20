@@ -1,0 +1,85 @@
+// ==UserScript==
+// @name         Novo.win config export
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Download your novo.win config
+// @author       notFunnys
+// @match        https://panel.novo.win/index.php?page=config&cheat=7&*
+// @match        https://panel.novo.win/index.php?page=config&cheat=1&*
+// @match        https://panel.novo.win/index.php?page=config&cheat=2&*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=novo.win
+// @grant        none
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    window.addEventListener("load", function () {
+        const cfg = document.querySelector("#cfgstring").innerHTML
+        const cfgTitle = document.querySelector("body > div.pusher > div > div > div > div.twelve.wide.column > div > h3").innerHTML
+        let eb = document.createElement("button")
+
+        function download(filename, text) {
+
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+        eb.innerText = "Export"
+        eb.onclick = function () {
+
+            let executed = true;
+
+            if (executed) {
+                executed = false;
+                download(`${cfgTitle}.json`, cfg);
+            }
+
+        }
+
+        const Styles = {
+
+            top: "0.45em",
+            buttom: "0.45em",
+
+            backgroundColor: "#2185d0",
+            color: "#fff",
+            textShadow: "none",
+            backgroundImage: "none",
+            cursor: "pointer",
+            display: "inline-block",
+            minHeight: "1em",
+            outline: "none",
+            border: "none",
+            verticalAlign: "baseline",
+            background: "2185d0",
+            fontFamily: "lato,helvetica neue,Arial,Helvetica,sans-serif",
+            margin: "0 .25em 0 0",
+            padding: "0.78571429em 1.5em",
+            textTransform: "none",
+            fontWeight: "700",
+            lineHeight: "1em",
+            fontStyle: "normal",
+            textAlign: "center",
+            textDecoration: "none",
+            borderRadius: "0.28571429rem"
+        }
+
+        Object.assign(eb.style, Styles)
+
+
+
+        document.querySelector("body > div.pusher > div > div > div > div.twelve.wide.column > div > div.ui.inverted.raised.segment > div.config-edit-button-container").append(eb)
+
+
+
+    }, false)
+})()
